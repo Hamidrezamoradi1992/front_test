@@ -123,7 +123,18 @@ RUN npm config set registry https://repo.hmirror.ir/npm \
 # فقط dependency ها (بهتر از install)
 COPY ./app/package.json ./app/package-lock.json ./
 
-RUN npm ci --no-audit --no-fund --prefer-offline
+RUN node -v && npm -v
+
+RUN echo "===== package.json =====" \
+    && cat package.json
+
+RUN echo "===== lock version =====" \
+    && node -e "console.log(require('./package-lock.json').lockfileVersion)"
+
+RUN echo "===== yaml =====" \
+    && grep -n "yaml" package-lock.json || true
+
+RUN npm install --no-audit --no-fund
 
 # مهم: Vite env ها باید ARG باشند (نه فقط ENV)
 # ARG VITE_BASE_URL
