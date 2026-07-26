@@ -112,45 +112,44 @@
 # CMD ["nginx", "-g", "daemon off;"]
 
 ################T4####################
+# ===========================
+# Build Stage
+# ===========================
 FROM node:22-bookworm-slim AS build
 
 WORKDIR /usr/src/app
 
-# npm mirror (اگر مجبور هستی نگهش دار)
+# npm config
 RUN npm config set registry https://repo.hmirror.ir/npm \
     && npm config set strict-ssl false
 
-# فقط dependency ها (بهتر از install)
-COPY ./app/package.json ./app/package-lock.json ./
+# فقط فایل‌های dependency
+COPY ./app/package*.json ./
 
-RUN node -v && npm -v
+# جلوگیری از باگ npm optional dependencies
+RUN rm -rf node_modules package-lock.json
 
-RUN echo "===== package.json =====" \
-    && cat package.json
+COPY ./app/package.json ./
 
-RUN echo "===== lock version =====" \
-    && node -e "console.log(require('./package-lock.json').lockfileVersion)"
+# نصب dependency ها
+RUN npm install \
+    --include=optional \
+    --no-audit \
+    --no-fund
 
-RUN echo "===== yaml =====" \
-    && grep -n "yaml" package-lock.json || true
-
-RUN npm install --no-audit --no-fund
-
-# مهم: Vite env ها باید ARG باشند (نه فقط ENV)
-# ARG VITE_BASE_URL
-# ARG VITE_IMAGE_BASE_URL
-
-# ENV VITE_BASE_URL=$VITE_BASE_URL
-# ENV VITE_IMAGE_BASE_URL=$VITE_IMAGE_BASE_URL
-
-# سورس
+# سورس پروژه
 COPY ./app ./
 
-# build
+# اطمینان از نصب binding
+RUN npm ls rolldown || true
+RUN npm ls @rolldown/binding-linux-x64-gnu || true
+
+# Build
 RUN npm run build
 
-
-# ========= NGINX =========
+# ===========================
+# Runtime Stage
+# ===========================
 FROM hub.hamdocker.ir/library/nginx:stable-alpine
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/repo.hmirror.ir\/apk/g' /etc/apk/repositories
