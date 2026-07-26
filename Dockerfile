@@ -126,11 +126,11 @@ COPY ./app/package.json ./app/package-lock.json ./
 RUN npm ci --no-audit --no-fund --prefer-offline
 
 # مهم: Vite env ها باید ARG باشند (نه فقط ENV)
-ARG VITE_BASE_URL
-ARG VITE_IMAGE_BASE_URL
+# ARG VITE_BASE_URL
+# ARG VITE_IMAGE_BASE_URL
 
-ENV VITE_BASE_URL=$VITE_BASE_URL
-ENV VITE_IMAGE_BASE_URL=$VITE_IMAGE_BASE_URL
+# ENV VITE_BASE_URL=$VITE_BASE_URL
+# ENV VITE_IMAGE_BASE_URL=$VITE_IMAGE_BASE_URL
 
 # سورس
 COPY ./app ./
