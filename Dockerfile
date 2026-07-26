@@ -112,7 +112,7 @@
 # CMD ["nginx", "-g", "daemon off;"]
 
 ################T4####################
-FROM hub.hamdocker.ir/library/node:20-alpine as build
+FROM hub.hamdocker.ir/library/node:22-alpine as build
 
 WORKDIR /usr/src/app
 
