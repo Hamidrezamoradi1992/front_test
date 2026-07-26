@@ -119,36 +119,30 @@ FROM node:22-bookworm-slim AS build
 
 WORKDIR /usr/src/app
 
-# npm config
+# NPM Registry
 RUN npm config set registry https://repo.hmirror.ir/npm \
     && npm config set strict-ssl false
 
-# فقط فایل‌های dependency
-COPY ./app/package*.json ./
-
-# جلوگیری از باگ npm optional dependencies
-RUN rm -rf node_modules package-lock.json
-
-COPY ./app/package.json ./
+# فقط package files
+COPY ./app/package.json ./app/package-lock.json ./
 
 # نصب dependency ها
-RUN npm install \
+# از lockfile استفاده می‌کند و optional package های Rolldown را هم نصب می‌کند
+RUN npm ci \
     --include=optional \
+    --legacy-peer-deps \
     --no-audit \
     --no-fund
 
 # سورس پروژه
 COPY ./app ./
 
-# اطمینان از نصب binding
-RUN npm ls rolldown || true
-RUN npm ls @rolldown/binding-linux-x64-gnu || true
-
 # Build
 RUN npm run build
 
+
 # ===========================
-# Runtime Stage
+# Nginx Stage
 # ===========================
 FROM hub.hamdocker.ir/library/nginx:stable-alpine
 
