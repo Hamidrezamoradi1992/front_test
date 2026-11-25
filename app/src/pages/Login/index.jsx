@@ -61,7 +61,25 @@ export default function Login() {
       console.error(err);
     }
   };
+  const handleDemoLogin = (type) => {
+    const isAdmin = type === 10;
 
+    const demoUser = {
+      id: isAdmin ? 10 : 1,
+      type,
+      isAdmin,
+      email: isAdmin ? "admin@demo.local" : "user@demo.local",
+      access_token: `demo-token-${type}`,
+      refresh_token: `demo-refresh-${type}`,
+    };
+
+    localStorage.setItem("access_token", demoUser.access_token);
+    localStorage.setItem("refresh_token", demoUser.refresh_token);
+
+    dispatch(setUser(demoUser));
+
+    navigate(isAdmin ? "/admin" : "/dashboard");
+  };
   const fieldStyles = {
     "& .MuiOutlinedInput-root": {
       borderRadius: "14px",
@@ -253,6 +271,47 @@ export default function Login() {
               © 2026 پند کاسپین | تمامی حقوق محفوظ است
             </Typography>
           </Box>
+          {import.meta.env.DEV && (
+            <Box sx={{ mt: 3 }}>
+              <Typography
+                textAlign="center"
+                fontSize={12}
+                color="text.secondary"
+                mb={2}
+              >
+                ورود سریع آزمایشی
+              </Typography>
+
+              <Box display="flex" gap={1.5}>
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  onClick={() => handleDemoLogin(1)}
+                  sx={{
+                    height: 45,
+                    borderRadius: "12px",
+                    borderColor: "#D92D35",
+                    color: "#D92D35",
+                  }}
+                >
+                  ورود کاربر (1)
+                </Button>
+
+                <Button
+                  fullWidth
+                  variant="contained"
+                  onClick={() => handleDemoLogin(10)}
+                  sx={{
+                    height: 45,
+                    borderRadius: "12px",
+                    background: "#D92D35",
+                  }}
+                >
+                  ورود ادمین (10)
+                </Button>
+              </Box>
+            </Box>
+          )}
         </Paper>
       </motion.div>
     </Box>
