@@ -11,16 +11,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
 
 import {
-  AlternateEmail,
-  Lock,
-  Visibility,
-  VisibilityOff,
+  AlternateEmailRounded,
+  LockRounded,
+  VisibilityOffRounded,
+  VisibilityRounded,
 } from "@mui/icons-material";
 
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +28,6 @@ import { useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../redux/api/authApi";
 import { setUser } from "../../redux/slices/authSlice";
 import { loginSchema } from "../../schemas/loginSchema";
-import Aurora from "./Aurora";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -52,52 +51,90 @@ export default function Login() {
 
       localStorage.setItem("access_token", res.access_token);
       localStorage.setItem("refresh_token", res.refresh_token);
-      // localStorage.setItem("user", JSON.stringify(res));
+
       const isAdmin = res.type === 10;
 
       dispatch(setUser({ ...res, isAdmin }));
 
       navigate(isAdmin ? "/admin" : "/dashboard");
     } catch (err) {
-      console.log(err);
-      // بعداً Snackbar جایگزین می‌کنیم
+      console.error(err);
     }
+  };
+
+  const fieldStyles = {
+    "& .MuiOutlinedInput-root": {
+      borderRadius: "14px",
+      backgroundColor: "#fff",
+      transition: "all .2s ease",
+      "& fieldset": {
+        borderColor: "#E5E7EB",
+      },
+      "&:hover fieldset": {
+        borderColor: "#D92D35",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#D92D35",
+        borderWidth: "1.5px",
+      },
+    },
+    "& .MuiInputLabel-root": {
+      color: "#6B7280",
+    },
+    "& .MuiInputLabel-root.Mui-focused": {
+      color: "#D92D35",
+    },
+    "& .MuiInputBase-input": {
+      color: "#1F2937",
+    },
   };
 
   return (
     <Box className="login-page">
-      <Aurora />
-
+      <div className="login-background-decoration login-decoration-one" />
+      <div className="login-background-decoration login-decoration-two" />
       <motion.div
-        initial={{ opacity: 0, y: 70, scale: 0.92 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{
-          duration: 0.8,
-          ease: "easeOut",
-        }}
+        initial={{ opacity: 0, y: 35 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.65, ease: "easeOut" }}
+        className="login-wrapper"
       >
         <Paper elevation={0} className="login-card">
           {/* Logo */}
-
           <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{
-              delay: 0.2,
-              type: "spring",
-            }}
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="login-logo-wrapper"
           >
-            <Box className="login-logo">W</Box>
+            <img
+              src="./panda-logo.png"
+              alt="پند کاسپین"
+              className="login-logo"
+            />
           </motion.div>
 
-          <Typography variant="h3" fontWeight={700} textAlign="center" mb={1}>
-            Welcome 👋
-          </Typography>
+          {/* Header */}
+          <Box className="login-header">
+            <Typography
+              variant="h4"
+              fontWeight={800}
+              textAlign="center"
+              className="login-title"
+            >
+              سامانه مدیریت تکنسین
+            </Typography>
 
-          <Typography color="text.secondary" textAlign="center" mb={5}>
-            ورود به سامانه دریافت توکن
-          </Typography>
+            <Typography textAlign="center" className="login-subtitle">
+              پند کاسپین
+            </Typography>
 
+            <Typography textAlign="center" className="login-description">
+              برای ورود به سامانه، اطلاعات حساب کاربری خود را وارد کنید.
+            </Typography>
+          </Box>
+
+          {/* Form */}
           <form onSubmit={handleSubmit(onSubmit)}>
             <Controller
               name="email"
@@ -108,23 +145,14 @@ export default function Login() {
                   fullWidth
                   margin="normal"
                   label="ایمیل"
+                  placeholder="example@email.com"
                   error={!!fieldState.error}
                   helperText={fieldState.error?.message}
-                  sx={{
-                    "& .MuiInputLabel-root": {
-                      color: "rgba(255,255,255,.7)",
-                    },
-                    "& .MuiInputLabel-root.Mui-focused": {
-                      color: "#a855f7",
-                    },
-                    "& input": {
-                      color: "#fff",
-                    },
-                  }}
+                  sx={fieldStyles}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <AlternateEmail color="primary" />
+                        <AlternateEmailRounded sx={{ color: "#D92D35" }} />
                       </InputAdornment>
                     ),
                   }}
@@ -140,23 +168,29 @@ export default function Login() {
                   {...field}
                   fullWidth
                   margin="normal"
-                  type={showPassword ? "text" : "password"}
                   label="رمز عبور"
+                  type={showPassword ? "text" : "password"}
                   error={!!fieldState.error}
                   helperText={fieldState.error?.message}
+                  sx={fieldStyles}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <Lock color="primary" />
+                        <LockRounded sx={{ color: "#D92D35" }} />
                       </InputAdornment>
                     ),
-
                     endAdornment: (
                       <InputAdornment position="end">
                         <IconButton
-                          onClick={() => setShowPassword(!showPassword)}
+                          onClick={() => setShowPassword((prev) => !prev)}
+                          edge="end"
+                          sx={{ color: "#6B7280" }}
                         >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                          {showPassword ? (
+                            <VisibilityOffRounded />
+                          ) : (
+                            <VisibilityRounded />
+                          )}
                         </IconButton>
                       </InputAdornment>
                     ),
@@ -165,35 +199,39 @@ export default function Login() {
               )}
             />
 
-            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+            {/* Login Button */}
+            <motion.div
+              whileHover={{ scale: 1.015 }}
+              whileTap={{ scale: 0.98 }}
+            >
               <Button
                 fullWidth
                 type="submit"
                 size="large"
                 variant="contained"
                 disabled={isLoading}
+                className="login-submit-button"
                 sx={{
-                  mt: 4,
-                  height: 58,
-                  borderRadius: "18px",
-
-                  background: "linear-gradient(135deg,#7C3AED,#9333EA,#2563EB)",
-
+                  mt: 3,
+                  height: 56,
+                  borderRadius: "14px",
+                  background: "linear-gradient(135deg, #E32636, #C8102E)",
                   fontWeight: 700,
-                  fontSize: 17,
-
+                  fontSize: 16,
+                  boxShadow: "0 8px 22px rgba(211, 31, 48, 0.22)",
                   textTransform: "none",
-
-                  boxShadow: "0 15px 40px rgba(124,58,237,.45)",
-
                   "&:hover": {
-                    background:
-                      "linear-gradient(135deg,#6D28D9,#7E22CE,#1D4ED8)",
+                    background: "linear-gradient(135deg, #C8102E, #A50D24)",
+                    boxShadow: "0 10px 26px rgba(211, 31, 48, 0.3)",
+                  },
+                  "&.Mui-disabled": {
+                    background: "#E5A0A5",
+                    color: "#fff",
                   },
                 }}
               >
                 {isLoading ? (
-                  <CircularProgress color="inherit" size={24} />
+                  <CircularProgress size={24} color="inherit" />
                 ) : (
                   "ورود به سامانه"
                 )}
@@ -201,16 +239,20 @@ export default function Login() {
             </motion.div>
           </form>
 
-          <Typography
-            mt={4}
-            textAlign="center"
-            sx={{
-              opacity: 0.7,
-              fontSize: 13,
-            }}
-          >
-            © 2026 Wazn Management System
-          </Typography>
+          {/* Footer */}
+          <Box className="login-footer">
+            <Typography className="login-footer-company">
+              PAND CASPIAN
+            </Typography>
+
+            <Typography className="login-footer-text">
+              سامانه مدیریت و پشتیبانی تکنسین‌ها
+            </Typography>
+
+            <Typography className="login-copyright">
+              © 2026 پند کاسپین | تمامی حقوق محفوظ است
+            </Typography>
+          </Box>
         </Paper>
       </motion.div>
     </Box>

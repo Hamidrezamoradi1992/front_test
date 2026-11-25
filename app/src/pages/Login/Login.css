@@ -1,461 +1,168 @@
-/* ===========================
-   Login Page
-=========================== */
-
 .login-page {
-  position: relative;
+  width: 100%;
   min-height: 100vh;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
   overflow: hidden;
+  padding: 24px;
+  box-sizing: border-box;
+  direction: rtl;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  background: radial-gradient(circle at top, #1f1147 0%, #09090f 70%);
+  background: #f7f8fa;
 }
 
-/* ===========================
-   Animated Grid
-=========================== */
+.login-wrapper {
+  width: 100%;
+  max-width: 460px;
+  position: relative;
+  z-index: 2;
+}
 
-.login-page::before {
-  content: "";
+.login-card {
+  width: 100%;
+  padding: 42px 38px 30px;
+  box-sizing: border-box;
+  border-radius: 26px !important;
+  background: #fff !important;
+  border: 1px solid #eceef1;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08) !important;
+}
+
+.login-background-decoration {
   position: absolute;
-  inset: 0;
-
-  background-image:
-    linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
-
-  background-size: 40px 40px;
-
-  opacity: .5;
-}
-
-/* ===========================
-   Aurora
-=========================== */
-
-.login-page::after{
-    content:"";
-    position:absolute;
-    inset:-20%;
-
-    background:
-        radial-gradient(circle,#8b5cf6 0%,transparent 35%),
-        radial-gradient(circle,#2563eb 0%,transparent 35%),
-        radial-gradient(circle,#ec4899 0%,transparent 30%);
-
-    filter:blur(140px);
-
-    animation:aurora 18s linear infinite;
-
-    opacity:.45;
-}
-
-@keyframes aurora{
-
-0%{
-
-transform:translate(-15%,-10%) rotate(0deg);
-
-}
-
-50%{
-
-transform:translate(10%,5%) rotate(180deg);
-
-}
-
-100%{
-
-transform:translate(-15%,-10%) rotate(360deg);
-
-}
-
-}
-
-/* ===========================
-   Glass Card
-=========================== */
-
-.login-card{
-
-position:relative;
-
-z-index:20;
-
-width:430px;
-
-padding:48px;
-
-border-radius:28px;
-
-background:rgba(255,255,255,.08);
-
-backdrop-filter:blur(25px);
-
--webkit-backdrop-filter:blur(25px);
-
-border:1px solid rgba(255,255,255,.12);
-
-box-shadow:
-
-0 25px 80px rgba(0,0,0,.45),
-
-0 0 0 1px rgba(255,255,255,.05);
-
-overflow:hidden;
-
-}
-
-.login-card::before{
-
-content:"";
-
-position:absolute;
-
-left:-50%;
-
-top:-50%;
-
-width:200%;
-
-height:200%;
-
-background:conic-gradient(
-
-transparent,
-
-rgba(255,255,255,.15),
-
-transparent,
-
-transparent
-
-);
-
-animation:rotateLight 10s linear infinite;
-
-}
-
-.login-card>*{
-
-position:relative;
-
-z-index:5;
-
-}
-
-@keyframes rotateLight{
-
-100%{
-
-transform:rotate(360deg);
-
-}
-
-}
-
-/* ===========================
-   MUI
-=========================== */
-
-.login-card .MuiOutlinedInput-root{
-
-border-radius:16px;
-
-background:rgba(255,255,255,.05);
-
-transition:.35s;
-
-}
-
-.login-card .MuiOutlinedInput-root:hover{
-
-background:rgba(255,255,255,.08);
-
-}
-
-.login-card .MuiOutlinedInput-root.Mui-focused{
-
-box-shadow:
-
-0 0 0 2px rgba(139,92,246,.3),
-
-0 0 30px rgba(139,92,246,.4);
-
-}
-
-.login-card .MuiOutlinedInput-notchedOutline{
-
-border-color:rgba(255,255,255,.15)!important;
-
-}
-
-.login-card input{
-
-color:#fff;
-
-}
-
-.login-card label{
-
-color:#bbb;
-
-}
-
-.login-card .MuiFormHelperText-root{
-
-color:#ffb4b4;
-
-}
-
-/* ===========================
-   Title
-=========================== */
-
-.login-card h3{
-
-color:#fff;
-
-letter-spacing:.5px;
-
-}
-
-.login-card p{
-
-color:#c7c7d4;
-
-}
-
-/* ===========================
-   Blob
-=========================== */
-
-.blob{
-
-position:absolute;
-
-border-radius:50%;
-
-filter:blur(70px);
-
-mix-blend-mode:screen;
-
-animation:float 12s ease-in-out infinite;
-
-}
-
-.blob1{
-
-width:260px;
-
-height:260px;
-
-left:-60px;
-
-top:10%;
-
-background:#7c3aed;
-
-}
-
-.blob2{
-
-width:340px;
-
-height:340px;
-
-right:-100px;
-
-top:55%;
-
-background:#2563eb;
-
-animation-delay:2s;
-
-}
-
-.blob3{
-
-width:220px;
-
-height:220px;
-
-top:65%;
-
-left:30%;
-
-background:#ec4899;
-
-animation-delay:5s;
-
-}
-
-@keyframes float{
-
-0%{
-
-transform:translateY(0) translateX(0);
-
-}
-
-25%{
-
-transform:translateY(-40px) translateX(30px);
-
-}
-
-50%{
-
-transform:translateY(20px) translateX(-20px);
-
-}
-
-75%{
-
-transform:translateY(-15px) translateX(45px);
-
-}
-
-100%{
-
-transform:translateY(0) translateX(0);
-
-}
-
-}
-
-/* ===========================
-   Button
-=========================== */
-
-.MuiButton-contained{
-
-overflow:hidden;
-
-position:relative;
-
-}
-
-.MuiButton-contained::before{
-
-content:"";
-
-position:absolute;
-
-left:-120%;
-
-top:0;
-
-width:100%;
-
-height:100%;
-
-background:linear-gradient(
-
-90deg,
-
-transparent,
-
-rgba(255,255,255,.45),
-
-transparent
-
-);
-
-transition:.7s;
-
-}
-
-.MuiButton-contained:hover::before{
-
-left:120%;
-
-}
-
-/* ===========================
-   Responsive
-=========================== */
-
-@media(max-width:700px){
-
-.login-card{
-
-width:92%;
-
-padding:30px;
-
-border-radius:22px;
-
-}
-
-}
-.login-logo {
-  width: 90px;
-  height: 90px;
-  margin: 0 auto 25px;
-
   border-radius: 50%;
+  pointer-events: none;
+}
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: #fff;
-  font-size: 34px;
-  font-weight: 700;
-
-  background: linear-gradient(135deg, #7c3aed, #2563eb);
-
+.login-decoration-one {
+  width: 500px;
+  height: 500px;
+  top: -250px;
+  right: -200px;
+  border: 1px solid rgba(217, 45, 53, 0.1);
   box-shadow:
-    0 0 45px rgba(124, 58, 237, 0.45),
-    inset 0 0 20px rgba(255, 255, 255, 0.15);
-}
-/* ===========================
-   MUI TextField Fix
-=========================== */
-
-.login-card .MuiFormLabel-root {
-  color: rgba(255, 255, 255, 0.7) !important;
+    0 0 0 50px rgba(217, 45, 53, 0.025),
+    0 0 0 100px rgba(217, 45, 53, 0.02);
 }
 
-.login-card .MuiFormLabel-root.Mui-focused {
-  color: #a855f7 !important;
+.login-decoration-two {
+  width: 400px;
+  height: 400px;
+  bottom: -220px;
+  left: -150px;
+  background: rgba(217, 45, 53, 0.035);
 }
 
-.login-card .MuiInputBase-input {
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff;
+.login-logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
 }
 
-.login-card .MuiOutlinedInput-root {
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 16px;
+.login-logo {
+  width: 100%;
+  max-width: 280px;
+  max-height: 110px;
+  object-fit: contain;
 }
 
-.login-card .MuiOutlinedInput-root fieldset {
-  border-color: rgba(255, 255, 255, 0.15);
+.login-header {
+  margin-bottom: 30px;
 }
 
-.login-card .MuiOutlinedInput-root:hover fieldset {
-  border-color: rgba(168, 85, 247, 0.5);
+.login-title {
+  color: #202938;
+  font-size: 27px !important;
+  line-height: 1.6 !important;
 }
 
-.login-card .MuiOutlinedInput-root.Mui-focused fieldset {
-  border-color: #a855f7;
-  border-width: 2px;
+.login-subtitle {
+  color: #d92d35;
+  font-weight: 700;
+  font-size: 16px;
+  margin-top: 6px !important;
 }
 
-.login-card .MuiSvgIcon-root {
-  color: rgba(255, 255, 255, 0.75);
+.login-description {
+  color: #89919e;
+  font-size: 13px !important;
+  margin-top: 15px !important;
+  line-height: 2 !important;
 }
 
-.login-card .MuiFormHelperText-root {
-  color: #ff8a8a !important;
+.login-footer {
+  margin-top: 32px;
+  padding-top: 22px;
+  border-top: 1px solid #f0f1f3;
+  text-align: center;
 }
 
-.login-card input::placeholder {
-  color: rgba(255, 255, 255, 0.45);
+.login-footer-company {
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  letter-spacing: 2px;
+  color: #d92d35;
+}
+
+.login-footer-text {
+  font-size: 12px !important;
+  color: #7b8492;
+  margin-top: 6px !important;
+}
+
+.login-copyright {
+  font-size: 11px !important;
+  color: #a0a7b1;
+  margin-top: 16px !important;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .login-page {
+    padding: 16px;
+  }
+
+  .login-card {
+    padding: 32px 24px 24px;
+    border-radius: 22px !important;
+  }
+
+  .login-logo {
+    max-width: 240px;
+  }
+
+  .login-title {
+    font-size: 23px !important;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 380px) {
+  .login-card {
+    padding: 28px 18px 22px;
+  }
+
+  .login-title {
+    font-size: 21px !important;
+  }
+}
+/* Remove Chrome Autofill Background */
+.login-card input:-webkit-autofill,
+.login-card input:-webkit-autofill:hover,
+.login-card input:-webkit-autofill:focus,
+.login-card input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  -webkit-text-fill-color: #1f2937 !important;
+  caret-color: #1f2937;
+  transition: background-color 999999s ease-in-out 0s;
+}
+
+/* Firefox Autofill */
+.login-card input:autofill {
+  box-shadow: 0 0 0 1000px #ffffff inset !important;
+  color: #1f2937 !important;
 }
